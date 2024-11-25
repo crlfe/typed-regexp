@@ -26,5 +26,5 @@ a string literal:
     const badMatch = bad.exec("hello world");
     if (badMatch) {
       // Your IDE can not help here, but the value is the same.
-      console.log(goodMatch.groups.place);
+      console.log(badMatch.groups.place);
     }
