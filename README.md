@@ -5,7 +5,7 @@ based on compile-time parsing in Typescript type declarations.
 
 Install "typed-regexp" directly from this repository:
 
-    npm i https://github.com/crlfe/typed-regexp.git
+    npm i '@crlfe.ca/typed-regexp'
 
 Unfortunately, Typescript does not let us access tagged template literals or
 regexp literals at compile-time, so you need to provide the input pattern as
