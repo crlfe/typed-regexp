@@ -1,6 +1,6 @@
 {
   "name": "@crlfe.ca/typed-regexp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Better tooltips and stricter types for regular expressions, by parsing them in Typescript type declarations",
   "keywords": [
     "typescript",
@@ -9,10 +9,16 @@
   "homepage": "https://github.com/crlfe/typed-regexp",
   "license": "Apache-2.0",
   "author": "Chris Wolfe (https://crlfe.ca/)",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.mjs",
+  "types": "./index.d.ts",
   "scripts": {
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc --noEmit false --outDir ./dist/cjs --module commonjs",
+    "build:esm": "tsc --noEmit false --outDir ./dist/esm",
+    "postbuild:esm": "node ./rename-esm.mjs",
+    "gen:dts": "tsc --noEmit false --declaration true --declarationMap true --emitDeclarationOnly true --outDir .",
+    "postgen:dts": "prettier --write index.d.ts",
     "lint": "eslint && prettier --check .",
     "test": "vitest",
     "test-types": "vitest --typecheck"

@@ -2,11 +2,26 @@
   "compilerOptions": {
     "noEmit": true,
 
-    "target": "ES2022",
-    "module": "Node16",
-    "moduleResolution": "Node16",
-    "isolatedModules": true
+    "target": "ESNext",
+    "module": "ESNext",
+
+    "checkJs": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+
+    "strict": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
-  "include": ["lib/**/*.ts"],
-  "exclude": ["lib/**/*.test-d.ts"]
+  "include": ["./index.ts"],
+  "exclude": ["./dist", "./**/*.test.ts", "./**/*.test-d.ts"]
 }
