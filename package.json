@@ -7,7 +7,7 @@
     "regexp"
   ],
   "homepage": "https://github.com/crlfe/typed-regexp",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "author": "Chris Wolfe (https://crlfe.ca/)",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
