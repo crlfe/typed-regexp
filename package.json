@@ -13,12 +13,12 @@
   "module": "./dist/esm/index.mjs",
   "types": "./index.d.ts",
   "scripts": {
-    "build": "npm run build:cjs && npm run build:esm",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:dts",
     "build:cjs": "tsc --noEmit false --outDir ./dist/cjs --module commonjs",
     "build:esm": "tsc --noEmit false --outDir ./dist/esm",
+    "build:dts": "tsc --noEmit false --declaration true --declarationMap true --emitDeclarationOnly true --outDir .",
     "postbuild:esm": "node ./rename-esm.mjs",
-    "gen:dts": "tsc --noEmit false --declaration true --declarationMap true --emitDeclarationOnly true --outDir .",
-    "postgen:dts": "prettier --write index.d.ts",
+    "postbuild:dts": "prettier --write index.d.ts",
     "lint": "eslint && prettier --check .",
     "test": "vitest",
     "test-types": "vitest --typecheck"
