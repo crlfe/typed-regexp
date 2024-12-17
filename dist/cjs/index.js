@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parse = parse;
+exports.TypedRegExp = void 0;
 /**
- * Create a strictly-typed wrapper for a new RegExp.
+ * A strictly-typed wrapper for RegExp.
  */
-function parse(pattern, flags) {
-    return new RegExp(pattern, flags || "");
-}
+exports.TypedRegExp = RegExp;

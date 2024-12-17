@@ -1,10 +1,22 @@
 import type { ParseCaptures } from "./types/parser";
-import type { TypedRegExp } from "./types/regexp";
+import type { TypedRegExp as TypedRegExpType } from "./types/regexp";
 /**
- * Create a strictly-typed wrapper for a new RegExp.
+ * A strictly-typed wrapper for RegExp.
  */
-export declare function parse<
-  Pattern extends string,
-  Flags extends string = "",
->(pattern: Pattern, flags?: Flags): TypedRegExp<ParseCaptures<Pattern>, Flags>;
+export declare const TypedRegExp: {
+  new <Pattern extends string>(
+    pattern: Pattern,
+  ): TypedRegExpType<ParseCaptures<Pattern>, "">;
+  new <Pattern extends string, Flags extends string>(
+    pattern: Pattern,
+    flags: Flags,
+  ): TypedRegExpType<ParseCaptures<Pattern>, Flags>;
+  <Pattern extends string>(
+    pattern: Pattern,
+  ): TypedRegExpType<ParseCaptures<Pattern>, "">;
+  <Pattern extends string, Flags extends string>(
+    pattern: Pattern,
+    flags: Flags,
+  ): TypedRegExpType<ParseCaptures<Pattern>, Flags>;
+};
 //# sourceMappingURL=index.d.ts.map

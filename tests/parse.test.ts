@@ -1,17 +1,17 @@
 import { expect, expectTypeOf, test } from "vitest";
-import { parse } from "..";
+import { TypedRegExp } from "..";
 
 test("example", () => {
   // Double slash is needed before "s" to match whitespace.
-  const good = parse("(hello)\\s+(?<place>world)");
+  const good = new TypedRegExp("(hello)\\s+(?<place>world)");
   const goodMatch = good.exec("hello world");
   if (goodMatch) {
     // Your IDE type hints and suggestions should work!
     console.log(goodMatch.groups.place);
   }
 
-  // Only string literals can not be parsed.
-  const bad = parse("(hello)\\s+" + "(?<place>world)");
+  // Only string literals can be parsed.
+  const bad = new TypedRegExp("(hello)\\s+" + "(?<place>world)");
   const badMatch = bad.exec("hello world");
   if (badMatch) {
     // Your IDE can not help here, but the value is the same.
@@ -20,7 +20,7 @@ test("example", () => {
 });
 
 test("smoke", () => {
-  const re = parse("(?:(?<fizz>fi)|(?<buzz>bu))(?<z>z+)", "g");
+  const re = new TypedRegExp("(?:(?<fizz>fi)|(?<buzz>bu))(?<z>z+)", "g");
   const input = "fizzbuzzzz";
 
   let m = re.exec(input);
@@ -67,7 +67,7 @@ test("smoke", () => {
 // Assembling the pattern at runtime means we can not do compile-time parsing.
 test("fallback", () => {
   const pattern = ["(?:(?<fizz>fi)", "(?<buzz>bu))(?<z>z+)"].join("|");
-  const re = parse(pattern, "g");
+  const re = new TypedRegExp(pattern, "g");
   const input = "fizzbuzzzz";
 
   const m = re.exec(input);
@@ -95,7 +95,7 @@ test("fallback", () => {
 
 // The "d" flag adds [start, end] indices for every capture group.
 test("indices", () => {
-  const re = parse("(a)(?<b>b)(c)?(?<d>d)?", "d");
+  const re = new TypedRegExp("(a)(?<b>b)(c)?(?<d>d)?", "d");
   const input = "abcd";
 
   const m = re.exec(input);
@@ -151,7 +151,7 @@ test("indices", () => {
 });
 
 test("fallback indices", () => {
-  const re = parse("(a)(?<b>b)" + "(c)?(?<d>d)?", "d");
+  const re = new TypedRegExp("(a)(?<b>b)" + "(c)?(?<d>d)?", "d");
   const input = "abcd";
 
   const m = re.exec(input);
