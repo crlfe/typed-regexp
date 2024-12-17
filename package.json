@@ -1,6 +1,6 @@
 {
   "name": "@crlfe.ca/typed-regexp",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Better tooltips and stricter types for regular expressions, by parsing them in Typescript type declarations",
   "keywords": [
     "typescript",
