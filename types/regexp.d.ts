@@ -35,7 +35,7 @@ type ExecArray<Captures extends CaptureList, Flags extends string>
       input: string;
     }
   // If there are any named capture groups, the 'groups' property maps them to their values.
-  & { [Key in "groups" as object extends NamedCaptures<Captures, unknown> ? never : Key]:
+  & { [Key in "groups" as  keyof NamedCaptures<Captures, unknown> extends never ? never : Key]:
       Expand<NamedCaptures<Captures, string>> }
 
   // If indices are enabled in the flags ("d"), the 'indices' property reports them.
@@ -48,7 +48,7 @@ type IndicesArray<Captures extends CaptureList>
   = [number, number][]
   & IndexedCaptures<Captures, [number, number]>
   // If there are any named capture groups, the 'groups' property maps them to their indices.
-  & { [Key in "groups" as object extends NamedCaptures<Captures, unknown> ? never : Key]:
+  & { [Key in "groups" as keyof NamedCaptures<Captures, unknown> extends never ? never : Key]:
       Expand<NamedCaptures<Captures, [number, number]>> };
 
 // prettier-ignore
