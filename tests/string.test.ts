@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, test } from "vitest";
-import { TypedRegExp } from "..";
+import { TypedRegExp } from "@crlfe.ca/typed-regexp";
 
 // prettier-ignore
 describe("examples", () => {

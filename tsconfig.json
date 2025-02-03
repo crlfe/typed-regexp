@@ -20,6 +20,11 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+
+    "rootDir": ".",
+    "paths": {
+      "@crlfe.ca/typed-regexp": ["."]
+    }
   }
 }

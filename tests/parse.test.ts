@@ -1,5 +1,5 @@
 import { expect, expectTypeOf, test } from "vitest";
-import { TypedRegExp } from "..";
+import { TypedRegExp } from "@crlfe.ca/typed-regexp";
 
 test("example", () => {
   // Double slash is needed before "s" to match whitespace.
