@@ -1,3 +1,47 @@
+/* Enhance String to support TypedRegExp arguments. */
+declare global {
+  interface String {
+    match<Captures extends CaptureList, Flags extends string>(
+      regexp: TypedRegExp<Captures, Flags>,
+    ):
+      | (Flags extends `${string}g${string}`
+          ? string[]
+          : Flags extends `${string}`
+            ? Expand<ExecArray<Captures, Flags>>
+            : unknown)
+      | null;
+
+    matchAll<Captures extends CaptureList, Flags extends string>(
+      regexp: TypedRegExp<Captures, Flags>,
+    ): RegExpStringIterator<Expand<ExecArray<Captures, Flags>>>;
+
+    replace<Captures extends CaptureList, Flags extends string>(
+      pattern: TypedRegExp<Captures, Flags>,
+      replacement: StringReplacementCallback<Captures>,
+    ): string;
+
+    replaceAll<Captures extends CaptureList, Flags extends string>(
+      pattern: TypedRegExp<Captures, Flags>,
+      replacement: StringReplacementCallback<Captures>,
+    ): string;
+  }
+}
+
+type StringReplacementCallback<Captures> = (
+  ...m: [
+    ...{
+      [Key in keyof Captures]: Key extends `${number}`
+        ? Captures[Key] extends `${string}?`
+          ? string | undefined
+          : string
+        : Captures[Key];
+    },
+    offset: number,
+    string: string,
+    groups: Expand<NamedCaptures<Captures, string>>,
+  ]
+) => string;
+
 /**
  * An array of string literals describing the capture groups of a RegExp.
  *
