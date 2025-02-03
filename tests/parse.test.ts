@@ -15,6 +15,7 @@ test("example", () => {
   const badMatch = bad.exec("hello world");
   if (badMatch) {
     // Your IDE can not help here, but the value is the same.
+    // @ts-expect-error{4111} A strict tsconfig requires ["place"].
     console.log(badMatch.groups.place);
   }
 });

@@ -6,6 +6,11 @@ export default tseslint.config(
   tseslint.configs.strict,
   tseslint.configs.stylistic,
   {
-    ignores: ["dist/*"],
+    files: ["index.js"],
+    languageOptions: {
+      globals: {
+        exports: "readonly",
+      },
+    },
   },
 );
