@@ -29,6 +29,7 @@ test("smoke", () => {
     | (string[] & {
         0: string;
         3: string;
+        length: 4;
         index: number;
         input: string;
         groups: {
@@ -39,6 +40,18 @@ test("smoke", () => {
       })
     | null
   >();
+
+  if (!m) expect.fail();
+
+  // Optional capture groups may be undefined.
+  expectTypeOf(m[1]).toEqualTypeOf<string | undefined>();
+
+  // Required capture groups are always defined.
+  expectTypeOf(m[3]).toEqualTypeOf<string>();
+
+  // Reading beyond the end of the array is not detected.
+  expectTypeOf(m[4]).toEqualTypeOf<string | undefined>();
+
   expect(m).toEqual(
     Object.assign(["fizz", "fi", undefined, "zz"], {
       index: 0,
@@ -105,6 +118,7 @@ test("indices", () => {
         0: string;
         1: string;
         2: string;
+        length: 5;
         index: number;
         input: string;
         groups: {
@@ -195,4 +209,18 @@ test("fallback indices", () => {
       ),
     }),
   );
+});
+
+test("destructure captures", () => {
+  const m = new TypedRegExp("(a)(b)?(c)").exec("abc");
+  if (!m) expect.fail();
+
+  const [input, a, b, c, d] = m;
+  expectTypeOf(input).toEqualTypeOf<string>();
+  expectTypeOf(a).toEqualTypeOf<string>();
+  expectTypeOf(b).toEqualTypeOf<string | undefined>();
+  expectTypeOf(c).toEqualTypeOf<string>();
+
+  // Reading beyond the end of the array.
+  expectTypeOf(d).toEqualTypeOf<string | undefined>();
 });

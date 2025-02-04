@@ -54,6 +54,7 @@ test("regexp from join", () => {
         0: string;
         1: string;
         2: string;
+        length: 3;
         index: number;
         input: string;
         groups: {
@@ -96,6 +97,7 @@ test("regexp from concat", () => {
         0: string;
         1: string;
         2: string;
+        length: 3;
         index: number;
         input: string;
         groups: {
@@ -115,6 +117,7 @@ test("match non-global", () => {
     | (string[] & {
         0: string;
         3: string;
+        length: 4;
         index: number;
         input: string;
         groups: {
@@ -148,6 +151,7 @@ test("match non-global empty", () => {
     | (string[] & {
         0: string;
         3: string;
+        length: 4;
         index: number;
         input: string;
         groups: {
@@ -187,6 +191,7 @@ test("matchAll", () => {
     (string[] & {
       0: string;
       3: string;
+      length: 4;
       index: number;
       input: string;
       groups: {

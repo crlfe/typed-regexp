@@ -72,9 +72,10 @@ export type TypedRegExp<Captures extends CaptureList, Flags extends string>
  * @template {string} Flags - A string literal containing the RegExp flags.
  */
 type ExecArray<Captures extends CaptureList, Flags extends string>
-  = string[]
+  = Omit<string[], "length">
   & IndexedCaptures<Captures, string>
   & {
+      length: Captures["length"];
       index: number;
       input: string;
     }
@@ -115,7 +116,6 @@ type NamedCaptures<Captures extends CaptureList, T>
         : Captures[Key]
       : never]: Captures[Key] extends `${string}?` ? T | undefined : T };
 
-// prettier-ignore
 /**
  * Expands the type names shown in tooltips.
  *
@@ -123,6 +123,17 @@ type NamedCaptures<Captures extends CaptureList, T>
  * to display as something like 'string[] & { thisIsAnAddedKey: number }'.
  */
 type Expand<T> = T extends (infer E)[]
-  ? E[]
-    & { [Key in keyof T as Key extends keyof E[] ? never : Key]: T[Key] }
+  ? E[] & {
+      [Key in keyof T as Key extends keyof E[]
+        ? // Omit properties that match the basic array.
+          E[][Key] extends T[Key]
+          ? never
+          : // Array methods that return ThisType do not actually return T.
+            ReturnType<T[Key]> extends T
+            ? never
+            : // Include properties that specialize the basic array.
+              Key
+        : // Include properties not present in the basic array.
+          Key]: T[Key];
+    }
   : { [Key in keyof T]: T[Key] };
