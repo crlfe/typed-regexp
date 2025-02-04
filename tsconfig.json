@@ -5,6 +5,7 @@
     "target": "ES2015",
     "module": "Node16",
 
+    "checkJs": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
@@ -25,5 +26,6 @@
     "paths": {
       "@crlfe.ca/typed-regexp": ["."]
     }
-  }
+  },
+  "exclude": ["./index.js", "./index.mjs"]
 }
