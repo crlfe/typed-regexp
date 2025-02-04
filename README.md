@@ -29,7 +29,7 @@ if (goodMatch) {
   console.log(goodMatch.groups.place);
 }
 
-// Only string literals can be parsed.
+// Only strings known at compile-time can be parsed.
 const bad = new TypedRegExp("(hello)\\s+" + "(?<place>world)");
 const badMatch = bad.exec("hello world");
 if (badMatch) {
@@ -38,15 +38,20 @@ if (badMatch) {
 }
 ```
 
-We have experimentally extended the global String.concat and
-ReadonlyArray.join declarations to produce string literals that also work:
+Because regular expressions can be large and complex, we provide wrappers
+for some common string manipulation functions so that their values are
+visible to the type system, and therefore to TypedRegExp:
 
 ```TypeScript
-const what = new TypedRegExp("".concat(
-  "hello",
-  "\\s+",
-  "(?<place>world)",
-));
+import { concat, join, TypedRegExp } from "@crlfe.ca/typed-regexp";
+
+const what = new TypedRegExp(
+  concat(
+    "hello",
+    "\\s+",
+    "(?<place>world)"
+  )
+);
 
 const whatMatch = what.exec("hello world");
 if (whatMatch) {
@@ -54,12 +59,12 @@ if (whatMatch) {
   console.log(whatMatch.groups.place);
 }
 
-// The "as const" following the array is required to keep TypeScript
-// from simplifying the ["...", "..."] tuple to string[].
-const fancy = new TypedRegExp(([
-  "(?<fizz>fizz)",
-  "(?<buzz>buzz)",
-] as const).join("|"));
+const fancy = new TypedRegExp(
+  join("|",
+    "(?<fizz>fizz)",
+    "(?<buzz>buzz)"
+  )
+);
 
 const fancyMatch = fancy.exec("buzz");
 if (fancyMatch) {

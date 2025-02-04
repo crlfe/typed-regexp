@@ -1,14 +1,17 @@
 import { describe, expect, expectTypeOf, test } from "vitest";
-import { TypedRegExp } from "@crlfe.ca/typed-regexp";
+import { concat, join, TypedRegExp } from "@crlfe.ca/typed-regexp";
 
-// prettier-ignore
 describe("examples", () => {
+  // Extra whitespace for README example.
+  // prettier-ignore
   test("concat", () => {
-    const what = new TypedRegExp("".concat(
-      "hello",
-      "\\s+",
-      "(?<place>world)",
-    ));
+    const what = new TypedRegExp(
+      concat(
+        "hello",
+        "\\s+",
+        "(?<place>world)"
+      )
+    );
 
     const whatMatch = what.exec("hello world");
     if (whatMatch) {
@@ -17,13 +20,15 @@ describe("examples", () => {
     }
   });
 
+  // Extra whitespace for README example.
+  // prettier-ignore
   test("join", () => {
-    // The "as const" following the array is required to keep TypeScript
-    // from simplifying the ["...", "..."] tuple to string[].
-    const fancy = new TypedRegExp(([
-      "(?<fizz>fizz)",
-      "(?<buzz>buzz)",
-    ] as const).join("|"));
+    const fancy = new TypedRegExp(
+      join("|",
+        "(?<fizz>fizz)",
+        "(?<buzz>buzz)"
+      )
+    );
 
     const fancyMatch = fancy.exec("buzz");
     if (fancyMatch) {
@@ -34,19 +39,14 @@ describe("examples", () => {
 });
 
 test("join", () => {
-  // Without a const, literal tuples will degrade to array.
-  expectTypeOf(["a", "b"]).toEqualTypeOf<string[]>();
-  expectTypeOf(["a", "b"]).not.toEqualTypeOf<[string, string]>();
-  expectTypeOf(["a", "b"] as const).toEqualTypeOf<readonly ["a", "b"]>();
-
-  // Our enhanced declaration can join literal tuples.
-  expectTypeOf((["a", "b"] as const).join()).toEqualTypeOf<"a,b">();
-  expectTypeOf((["a", "b"] as const).join("")).toEqualTypeOf<"ab">();
-  expectTypeOf((["a", "b"] as const).join("|")).toEqualTypeOf<"a|b">();
+  // Our enhanced declaration can join literal strings.
+  expectTypeOf(join(",", "a", "b")).toEqualTypeOf<"a,b">();
+  expectTypeOf(join("", "a", "b")).toEqualTypeOf<"ab">();
+  expectTypeOf(join("|", "a", "b")).toEqualTypeOf<"a|b">();
 });
 
 test("regexp from join", () => {
-  const re = new TypedRegExp((["(?<fizz>fi)", "(?<buzz>bu)"] as const).join());
+  const re = new TypedRegExp(join(",", "(?<fizz>fi)", "(?<buzz>bu)"));
   const input = "fi,bu";
   const m = re.exec(input);
   expectTypeOf(m).toEqualTypeOf<
@@ -78,17 +78,17 @@ test("concat", () => {
   expectTypeOf("a").not.toEqualTypeOf<["a"]>();
   expectTypeOf("a" as const).toEqualTypeOf<"a">();
 
-  // However, we can still grab the literal value of this.
-  expectTypeOf("a".concat("bc", "d")).toEqualTypeOf<"abcd">();
+  // However, we can still grab the literal values with a function.
+  expectTypeOf(concat("a", "bc", "d")).toEqualTypeOf<"abcd">();
 
   // Or use strings that are marked const.
   const a = "fizz" as const;
   const b = "buzz" as const;
-  expectTypeOf(a.concat(b)).toEqualTypeOf<"fizzbuzz">();
+  expectTypeOf(concat(a, b)).toEqualTypeOf<"fizzbuzz">();
 });
 
 test("regexp from concat", () => {
-  const re = new TypedRegExp("(".concat("fi", ")(?<", "z>z+)"));
+  const re = new TypedRegExp(concat("(", "fi", ")(?<", "z>z+)"));
   const input = "fizzz";
   const m = re.exec(input);
   expectTypeOf(m).toEqualTypeOf<

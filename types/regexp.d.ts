@@ -1,16 +1,6 @@
 /* Enhance String to support TypedRegExp arguments. */
 declare global {
-  interface ReadonlyArray {
-    join<This>(this: This): Join<This, ",">;
-    join<This, Sep extends string>(this: This, separator: Sep): Join<This, Sep>;
-  }
-
   interface String {
-    concat<This extends string, Strs extends string[]>(
-      this: This,
-      ...strings: Strs
-    ): `${This}${Join<Strs>}`;
-
     match<Captures extends CaptureList, Flags extends string>(
       regexp: TypedRegExp<Captures, Flags>,
     ):
@@ -36,12 +26,6 @@ declare global {
     ): string;
   }
 }
-
-type Join<Strs, Sep = ""> = Strs extends readonly [infer Str, ...infer Rest]
-  ? Rest extends []
-    ? `${Str}`
-    : `${Str}${Sep}${Join<Rest, Sep>}`
-  : "";
 
 type StringReplacementCallback<Captures> = (
   ...m: [
